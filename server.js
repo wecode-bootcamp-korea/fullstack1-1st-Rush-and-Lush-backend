@@ -3,9 +3,9 @@ import http from 'http';
 import app from './app';
 import dotenv from 'dotenv';
 
-const server = http.createServer(app);
 dotenv.config();
-const PORT = process.env.PORT;
+const server = http.createServer(app);
+const { PORT } = process.env;
 
 const start = async () => {
   try {
