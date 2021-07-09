@@ -1,6 +1,5 @@
 // This is your Prisma schema file,
 // learn more about it in the docs: https://pris.ly/d/prisma-schema
-
 datasource db {
   provider = "mysql"
   url      = env("DATABASE_URL")
@@ -8,4 +7,194 @@ datasource db {
 
 generator client {
   provider = "prisma-client-js"
+}
+
+model Menu {
+  id        Int        @id @default(autoincrement())
+  name      String
+  createdAt DateTime   @default(now()) @map("created_at")
+  category  Category[]
+
+  @@map("menus")
+}
+
+model Category {
+  id          Int           @id @default(autoincrement())
+  name        String
+  menuId      Int           @map("menu_id")
+  createdAt   DateTime      @default(now()) @map("created_at")
+  menu        Menu          @relation(fields: [menuId], references: [id])
+  subCategory SubCategory[]
+
+  @@map("categories")
+}
+
+model SubCategory {
+  id         Int       @id @default(autoincrement())
+  name       String
+  categoryId Int       @map("category_id")
+  createdAt  DateTime  @default(now()) @map("created_at")
+  category   Category  @relation(fields: [categoryId], references: [id])
+  product    Product[]
+
+  @@map("sub_categories")
+}
+
+model Product {
+  id                Int            @id @default(autoincrement())
+  name              String
+  price             Decimal        @db.Decimal(8, 2)
+  weight            Decimal        @db.Decimal(5, 0)
+  remainingQuantity Int            @map("remaining_quantity")
+  description       String
+  isNew             Int            @map("is_new") @db.TinyInt
+  isSoldOut         Int            @map("is_sold_out") @db.TinyInt
+  isVegan           Int            @map("is_vegan") @db.TinyInt
+  subCategoryId     Int            @map("sub_category_id")
+  createdAt         DateTime       @default(now()) @map("created_at")
+  subCategory       SubCategory    @relation(fields: [subCategoryId], references: [id])
+  review            Review[]
+  image             Image[]
+  like              Like[]
+  orderProduct      OrderProduct[]
+
+  @@map("products")
+}
+
+model Review {
+  id          Int           @id @default(autoincrement())
+  rating      Decimal       @db.Decimal(5, 1)
+  comment     String        @db.VarChar(2000)
+  productId   Int           @map("product_id")
+  userId      Int           @map("user_id")
+  createdAt   DateTime      @default(now()) @map("created_at")
+  product     Product       @relation(fields: [productId], references: [id])
+  user        User          @relation(fields: [userId], references: [id])
+  reviewImage ReviewImage[]
+
+  @@map("reviews")
+}
+
+model ReviewImage {
+  id        Int      @id @default(autoincrement())
+  photo     Bytes?   @db.MediumBlob
+  reviewId  Int      @map("review_id")
+  createdAt DateTime @default(now()) @map("created_at")
+  review    Review   @relation(fields: [reviewId], references: [id])
+
+  @@map("review_images")
+}
+
+model Image {
+  id        Int      @id @default(autoincrement())
+  imageUrl  String   @map("image_url") @db.VarChar(3000)
+  productId Int      @map("product_id")
+  createdAt DateTime @default(now()) @map("created_at")
+  product   Product  @relation(fields: [productId], references: [id])
+
+  @@map("images")
+}
+
+model Like {
+  id        Int      @id @default(autoincrement())
+  productId Int      @map("product_id")
+  userId    Int      @map("user_id")
+  createdAt DateTime @default(now()) @map("created_at")
+  product   Product  @relation(fields: [productId], references: [id])
+  user      User     @relation(fields: [userId], references: [id])
+
+  @@map("likes")
+}
+
+model OrderProduct {
+  id        Int      @id @default(autoincrement())
+  quantity  Int
+  productId Int      @map("product_id")
+  orderId   Int      @map("order_id")
+  createdAt DateTime @default(now()) @map("created_at")
+  product   Product  @relation(fields: [productId], references: [id])
+  order     Order    @relation(fields: [orderId], references: [id])
+
+  @@map("order_products")
+}
+
+model Order {
+  id              Int            @id @default(autoincrement())
+  orderNumber     String         @map("order_number") @db.VarChar(100)
+  userId          Int            @map("user_id")
+  addressId       Int            @map("address_id")
+  statusId        Int            @map("status_id")
+  paymentId       Int            @map("payment_id")
+  shippingId      Int            @map("shipping_id")
+  recieverName    String         @map("reciever_name") @db.VarChar(45)
+  email           String         @db.VarChar(200)
+  phoneNumber     String         @map("phone_number") @db.VarChar(45)
+  shippingMessage String?        @map("shipping_message") @db.VarChar(200)
+  createdAt       DateTime       @default(now()) @map("created_at")
+  orderStatusId   Int
+  orderProduct    OrderProduct[]
+  user            User           @relation(fields: [userId], references: [id])
+  orderStatus     OrderStatus    @relation(fields: [orderStatusId], references: [id])
+  address         Address        @relation(fields: [addressId], references: [id])
+  payment         Payment        @relation(fields: [paymentId], references: [id])
+  shipping        Shipping       @relation(fields: [shippingId], references: [id])
+
+  @@map("orders")
+}
+
+model OrderStatus {
+  id          Int      @id @default(autoincrement())
+  orderStatus String   @map("order_status") @db.VarChar(100)
+  createdAt   DateTime @default(now()) @map("created_at")
+  order       Order[]
+
+  @@map("order_status")
+}
+
+model User {
+  id          Int       @id @default(autoincrement())
+  name        String    @db.VarChar(45)
+  password    String    @db.VarChar(200)
+  email       String    @db.VarChar(200)
+  account     String    @db.VarChar(45)
+  phoneNumber String    @map("phone_number") @db.VarChar(45)
+  nickname    String?   @db.VarChar(45)
+  createdAt   DateTime  @default(now()) @map("created_at")
+  like        Like[]
+  order       Order[]
+  address     Address[]
+  review      Review[]
+
+  @@map("users")
+}
+
+model Shipping {
+  id             Int      @id @default(autoincrement())
+  shippingStatus String   @map("shipping_status") @db.VarChar(45)
+  createdAt      DateTime @default(now()) @map("created_at")
+  order          Order[]
+
+  @@map("shippings")
+}
+
+model Address {
+  id            Int      @id @default(autoincrement())
+  zipCode       String   @map("zip_code") @db.VarChar(45)
+  roadAddress   String   @map("road_address") @db.VarChar(200)
+  addressDetail String   @map("address_detail") @db.VarChar(100)
+  userId        Int      @map("user_id")
+  createdAt     DateTime @default(now()) @map("created_at")
+  order         Order[]
+  user          User     @relation(fields: [userId], references: [id])
+
+  @@map("addresses")
+}
+
+model Payment {
+  id            Int      @id @default(autoincrement())
+  paymentMethod String   @map("paymend_method") @db.VarChar(45)
+  createdAt     DateTime @default(now()) @map("created_at")
+  order         Order[]
+
+  @@map("payments")
 }
