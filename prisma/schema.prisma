@@ -23,7 +23,7 @@ model Category {
   name        String
   menuId      Int           @map("menu_id")
   createdAt   DateTime      @default(now()) @map("created_at")
-  Menu        Menu          @relation(fields: [menuId], references: [id])
+  menu        Menu          @relation(fields: [menuId], references: [id])
   subCategory SubCategory[]
 
   @@map("categories")
@@ -34,7 +34,7 @@ model SubCategory {
   name       String
   categoryId Int       @map("category_id")
   createdAt  DateTime  @default(now()) @map("created_at")
-  Category   Category  @relation(fields: [categoryId], references: [id])
+  category   Category  @relation(fields: [categoryId], references: [id])
   product    Product[]
 
   @@map("sub_categories")
@@ -43,7 +43,7 @@ model SubCategory {
 model Product {
   id                Int            @id @default(autoincrement())
   name              String
-  price             Decimal        @db.Decimal(8, 3)
+  price             Decimal        @db.Decimal(8, 2)
   weight            Decimal        @db.Decimal(5, 0)
   remainingQuantity Int            @map("remaining_quantity")
   description       String
@@ -52,7 +52,7 @@ model Product {
   isVegan           Int            @map("is_vegan") @db.TinyInt
   subCategoryId     Int            @map("sub_category_id")
   createdAt         DateTime       @default(now()) @map("created_at")
-  SubCategory       SubCategory    @relation(fields: [subCategoryId], references: [id])
+  subCategory       SubCategory    @relation(fields: [subCategoryId], references: [id])
   review            Review[]
   image             Image[]
   like              Like[]
@@ -172,7 +172,7 @@ model Shipping {
   id             Int      @id @default(autoincrement())
   shippingStatus String   @map("shipping_status") @db.VarChar(45)
   createdAt      DateTime @default(now()) @map("created_at")
-  Order          Order[]
+  order          Order[]
 
   @@map("shippings")
 }
