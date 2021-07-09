@@ -125,13 +125,13 @@ model Order {
   addressId       Int            @map("address_id")
   statusId        Int            @map("status_id")
   paymentId       Int            @map("payment_id")
+  shippingId      Int            @map("shipping_id")
   recieverName    String         @map("reciever_name") @db.VarChar(45)
   email           String         @db.VarChar(200)
   phoneNumber     String         @map("phone_number") @db.VarChar(45)
   shippingMessage String?        @map("shipping_message") @db.VarChar(200)
   createdAt       DateTime       @default(now()) @map("created_at")
   orderStatusId   Int
-  shippingId      Int
   orderProduct    OrderProduct[]
   user            User           @relation(fields: [userId], references: [id])
   orderStatus     OrderStatus    @relation(fields: [orderStatusId], references: [id])
@@ -144,7 +144,7 @@ model Order {
 
 model OrderStatus {
   id          Int      @id @default(autoincrement())
-  orderNumber String   @map("order_number") @db.VarChar(100)
+  orderStatus String   @map("order_status") @db.VarChar(100)
   createdAt   DateTime @default(now()) @map("created_at")
   order       Order[]
 
@@ -171,9 +171,8 @@ model User {
 model Shipping {
   id             Int      @id @default(autoincrement())
   shippingStatus String   @map("shipping_status") @db.VarChar(45)
-  orderId        Int      @map("order_id")
   createdAt      DateTime @default(now()) @map("created_at")
-  order          Order[]
+  Order          Order[]
 
   @@map("shippings")
 }
