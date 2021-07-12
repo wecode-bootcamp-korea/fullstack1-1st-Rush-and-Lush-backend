@@ -35,7 +35,6 @@ const userSignUp = async (
 
 const userLogin = async (email, password) => {
   const findUsers = await usersDao.getUsers(email);
-  console.log('이건 이메일', email);
 
   if (!findUsers.length) {
     const error = new Error('INVALID_USER');
@@ -56,4 +55,4 @@ const userLogin = async (email, password) => {
   return token;
 };
 
-export default { findAllUsers, userSignUp, userLogin };
+export default { userSignUp, userLogin };

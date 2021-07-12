@@ -24,7 +24,6 @@ const userSignUp = async (req, res) => {
 
 const userLogin = async (req, res) => {
   try {
-    console.log('여긴 컨트롤러');
     const { email, password } = req.body;
 
     if (!email && !password) {
@@ -51,4 +50,4 @@ const userLogin = async (req, res) => {
   }
 };
 
-export default { findAllUsers, userSignUp, userLogin };
+export default { userSignUp, userLogin };
