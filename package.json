@@ -17,8 +17,12 @@
     "@babel/preset-env": "^7.14.7",
     "dotenv": "^10.0.0",
     "eslint": "^7.30.0",
+    "eslint-config-prettier": "^8.3.0",
     "eslint-config-strongloop": "^2.1.0",
-    "nodemon": "^2.0.9"
+    "eslint-plugin-prettier": "^3.4.0",
+    "nodemon": "^2.0.12",
+    "prettier": "^2.3.2",
+    "prisma": "^2.26.0"
   },
   "scripts": {
     "start": "nodemon --exec babel-node server.js"
