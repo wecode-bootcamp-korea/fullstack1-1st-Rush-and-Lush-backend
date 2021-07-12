@@ -33,10 +33,26 @@ const userSignUp = async (req, res) => {
 
 const userLogin = async (req, res) => {
   try {
+    console.log('여긴 컨트롤러');
     const { email, password } = req.body;
-    const token = await usersService.userLogin(email, password);
 
-    res.status(200).json({ message: 'LOGIN_SUCCESS!', token });
+    if (!email && !password) {
+      let error = new Error('PLZ_INSERT_REQUIRED_INFORMATION');
+      error.statusCode = 404;
+      throw error;
+    } else if (!email) {
+      let error = new Error('PLZ_INSERT_EMAIL');
+      error.statusCode = 404;
+      throw error;
+    } else if (!password) {
+      let error = new Error('PLZ_INSERT_PASSWORD');
+      error.statusCode = 404;
+      throw error;
+    } else {
+      const token = await usersService.userLogin(email, password);
+
+      res.status(200).json({ message: 'LOGIN_SUCCESS!', token });
+    }
   } catch (err) {
     res.status(500).json({
       message: err.message,
