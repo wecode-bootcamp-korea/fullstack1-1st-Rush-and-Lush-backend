@@ -3,10 +3,6 @@ import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 const TOKEN_KEY = '' + process.env.SECRET_KEY;
 
-const findAllUsers = async () => {
-  return await usersDao.getAllUsers();
-};
-
 const userSignUp = async (
   email,
   name,
@@ -42,20 +38,20 @@ const userLogin = async (email, password) => {
   console.log('이건 이메일', email);
 
   if (!findUsers.length) {
-    const error = new Error('CANNOT_FIND_USER');
+    const error = new Error('INVALID_USER');
     error.statusCode = 404;
     throw error;
   }
 
-  const { email: my_email, password: hashedPassword } = findUsers[0];
+  const { id, password: hashedPassword } = findUsers[0];
   const comparedPassword = await bcrypt.compare(password, hashedPassword);
 
   if (!comparedPassword) {
-    const err = new Error('INCORRECT_PASSWORD');
+    const err = new Error('INVALID_USER');
     err.statusCode = 401;
     throw err;
   }
-  const token = jwt.sign({ my_email }, TOKEN_KEY, { expiresIn: '1h' });
+  const token = jwt.sign({ id }, TOKEN_KEY, { expiresIn: '1h' });
 
   return token;
 };

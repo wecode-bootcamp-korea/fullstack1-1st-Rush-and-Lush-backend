@@ -1,14 +1,5 @@
 import { usersService } from '../services';
 
-const findAllUsers = async (req, res) => {
-  try {
-    const users = await usersService.findAllUsers();
-    res.status(200).json({ users });
-  } catch (err) {
-    res.status(500).json({ message: err.message });
-  }
-};
-
 const userSignUp = async (req, res) => {
   try {
     const { email, name, password, account, nickname, phoneNumber } = req.body;
