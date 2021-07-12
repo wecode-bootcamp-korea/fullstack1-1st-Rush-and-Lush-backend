@@ -39,8 +39,9 @@ const userSignUp = async (
 
 const userLogin = async (email, password) => {
   const findUsers = await usersDao.getUsers(email);
+  console.log('이건 이메일', email);
 
-  if (!findUsers) {
+  if (!findUsers.length) {
     const error = new Error('CANNOT_FIND_USER');
     error.statusCode = 404;
     throw error;
