@@ -11,14 +11,14 @@ const findAllUsers = async (req, res) => {
 
 const userSignUp = async (req, res) => {
   try {
-    const { email, name, password, account, nickname, phone_number } = req.body;
+    const { email, name, password, account, nickname, phoneNumber } = req.body;
     await usersService.userSignUp(
       email,
       name,
       password,
       account,
       nickname,
-      phone_number
+      phoneNumber
     );
 
     res.status(201).json({
@@ -37,16 +37,16 @@ const userLogin = async (req, res) => {
     const { email, password } = req.body;
 
     if (!email && !password) {
-      let error = new Error('PLZ_INSERT_REQUIRED_INFORMATION');
-      error.statusCode = 404;
+      let error = new Error('PLEASE_INSERT_REQUIRED_INFORMATION');
+      error.statusCode = 400;
       throw error;
     } else if (!email) {
-      let error = new Error('PLZ_INSERT_EMAIL');
-      error.statusCode = 404;
+      let error = new Error('PLEASE_INSERT_EMAIL');
+      error.statusCode = 400;
       throw error;
     } else if (!password) {
-      let error = new Error('PLZ_INSERT_PASSWORD');
-      error.statusCode = 404;
+      let error = new Error('PLEASE_INSERT_PASSWORD');
+      error.statusCode = 400;
       throw error;
     } else {
       const token = await usersService.userLogin(email, password);
