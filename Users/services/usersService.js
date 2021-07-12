@@ -13,7 +13,7 @@ const userSignUp = async (
   password,
   account,
   nickname,
-  phone_number
+  phoneNumber
 ) => {
   const saltRounds = 10;
   const salt = await bcrypt.genSalt(saltRounds);
@@ -33,7 +33,7 @@ const userSignUp = async (
     hashedPassword,
     account,
     nickname,
-    phone_number
+    phoneNumber
   );
 };
 
