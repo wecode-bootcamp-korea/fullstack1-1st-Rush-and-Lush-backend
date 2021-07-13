@@ -11,10 +11,6 @@ const userSignUp = async (
   nickname,
   phoneNumber
 ) => {
-  const saltRounds = 10;
-  const salt = await bcrypt.genSalt(saltRounds);
-  const hashedPassword = await bcrypt.hash(password, salt);
-
   const existingEmail = await usersDao.getEmail(email);
 
   if (existingEmail.length) {
@@ -22,6 +18,10 @@ const userSignUp = async (
     error.statusCode = 409;
     throw error;
   }
+
+  const saltRounds = 10;
+  const salt = await bcrypt.genSalt(saltRounds);
+  const hashedPassword = await bcrypt.hash(password, salt);
 
   return await usersDao.createUser(
     email,
@@ -38,7 +38,7 @@ const userLogin = async (email, password) => {
 
   if (!findUsers.length) {
     const error = new Error('INVALID_USER');
-    error.statusCode = 404;
+    error.statusCode = 401;
     throw error;
   }
 
