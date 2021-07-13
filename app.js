@@ -1,4 +1,5 @@
 import express from 'express';
+import route from './Users/Router';
 import cors from 'cors';
 import morgan from 'morgan';
 
@@ -8,5 +9,6 @@ const logger = morgan('dev');
 app.use(cors());
 app.use(express.json());
 app.use(logger);
+app.use(route);
 
 export default app;
