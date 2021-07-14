@@ -17,7 +17,7 @@ const createUser = async (
   password,
   account,
   nickname,
-  phone_number
+  phoneNumber
 ) => {
   return await prisma.$queryRaw(`
     INSERT INTO 
@@ -35,7 +35,7 @@ const createUser = async (
       '${password}',
       '${account}',
       '${nickname}',
-      '${phone_number}'
+      '${phoneNumber}'
     )
   `);
 };
