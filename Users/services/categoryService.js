@@ -1,11 +1,18 @@
 import { categoryDao } from '../models';
 
-const findAllCategories = async () => {
-  return await categoryDao.getAllCategories();
+const matchCategoriesAndSubCategories = async () => {
+  const categories = await categoryDao.findCategories();
+  const data = await Promise.all(
+    categories.map(async (category) => {
+      const subCategories = await categoryDao.findSubCategories(category.id);
+      return {
+        categoryId: category.id,
+        catagoryName: category.name,
+        subCategories: subCategories,
+      };
+    })
+  );
+  return data;
 };
 
-const matchCategoriesAndSubCategories = async (name) => {
-  return await categoryDao.matchCategoriesAndSubCategories(name);
-};
-
-export default { findAllCategories, matchCategoriesAndSubCategories };
+export default { matchCategoriesAndSubCategories };

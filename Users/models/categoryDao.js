@@ -1,20 +1,23 @@
 import prisma from '../../prisma/index';
 
-const getAllCategories = async () => {
-  return await prisma.$queryRaw(`SELECT * FROM categories`);
-};
-
-const matchCategoriesAndSubCategories = async (name) => {
+const findCategories = async () => {
   return await prisma.$queryRaw(`
-  SELECT 
-    sub_categories.id, sub_categories.name, sub_categories.category_id
+  SELECT
+    categories.id, categories.name
   FROM 
-    sub_categories
-  JOIN
     categories
-  ON
-    categories.id = sub_categories.category_id
   `);
 };
 
-export default { getAllCategories, matchCategoriesAndSubCategories };
+const findSubCategories = async (categoryId) => {
+  return await prisma.$queryRaw(`
+  SELECT 
+    sub_categories.id, sub_categories.name
+  FROM 
+    sub_categories
+  WHERE 
+    category_id = '${categoryId}'
+  `);
+};
+
+export default { findCategories, findSubCategories };
