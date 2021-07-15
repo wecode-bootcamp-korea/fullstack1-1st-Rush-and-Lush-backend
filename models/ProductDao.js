@@ -1,6 +1,7 @@
-import prisma from "../prisma"
+import prisma from '../prisma';
 
-const getProducts = async () => {
+const getProducts = async (subCategoryId) => {
+  console.log(subCategoryId);
   const products = await prisma.$queryRaw(`
     SELECT
       products.id,
@@ -14,8 +15,10 @@ const getProducts = async () => {
     FROM images
     JOIN products
       ON images.product_id = products.id
-    `)
-  return products
+    WHERE products.sub_category_id = ${subCategoryId}
+    `);
+
+  return products;
 };
 
-export default { getProducts }
+export default { getProducts };
