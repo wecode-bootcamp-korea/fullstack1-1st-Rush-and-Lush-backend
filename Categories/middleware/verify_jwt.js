@@ -6,13 +6,13 @@ const authenticateToken = async (req, res, next) => {
     const token = req.headers.authorization.split('Bearer ')[1];
     jwt.verify(token, TOKEN_KEY, (err) => {
       if (err) {
-        res.status(401).json({ error: 'AUTH_ERROR' });
+        res.status(401).json({ error: 'UNAUTHORIZED' });
       } else {
         next();
       }
     });
   } else {
-    res.status(401).json({ error: 'AUTH_ERROR_FROM_AUTHCHECKER' });
+    res.status(401).json({ error: 'USER_TOKEN_REQUIRED' });
   }
 };
 
