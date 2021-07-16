@@ -1,7 +1,6 @@
 import prisma from '../prisma';
 
 const getProducts = async (subCategoryId) => {
-  console.log(subCategoryId);
   const products = await prisma.$queryRaw(`
     SELECT
       products.id,
