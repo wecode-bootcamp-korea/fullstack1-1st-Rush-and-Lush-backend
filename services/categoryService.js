@@ -6,6 +6,7 @@ const matchCategoriesAndSubCategories = async () => {
     categories.map(async (category) => {
       const subCategories = await categoryDao.findSubCategories(category.id);
       return {
+        menuId: category.menu_id,
         categoryId: category.id,
         catagoryName: category.name,
         subCategories: subCategories,

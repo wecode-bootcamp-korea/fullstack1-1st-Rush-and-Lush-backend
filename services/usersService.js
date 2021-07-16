@@ -14,7 +14,7 @@ const userSignUp = async (
   const existingEmail = await usersDao.getEmail(email);
 
   if (existingEmail.length) {
-    const error = new Error('error');
+    const error = new Error('ALREADY_EXISTING_USER');
     error.statusCode = 409;
     throw error;
   }

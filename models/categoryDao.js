@@ -3,7 +3,7 @@ import prisma from '../prisma'
 const findCategories = async () => {
   return await prisma.$queryRaw(`
     SELECT
-      categories.id, categories.name
+      categories.id, categories.name, categories.menu_id
     FROM 
       categories
   `);
