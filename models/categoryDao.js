@@ -1,4 +1,4 @@
-import prisma from '../../prisma/index';
+import prisma from '../prisma'
 
 const findCategories = async () => {
   return await prisma.$queryRaw(`

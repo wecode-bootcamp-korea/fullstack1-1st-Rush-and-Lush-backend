@@ -1,8 +1,8 @@
-import express from 'express';
-import categoryRouter from './categoryRouter';
+// import express from 'express';
+// import categoryRouter from './categoryRouter';
 
-const router = express.Router();
+// const router = express.Router();
 
-router.use('/category', categoryRouter);
+// router.use('/category', categoryRouter);
 
-export default router;
+// export default router;

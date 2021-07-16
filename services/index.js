@@ -1,3 +1,5 @@
 import ProductsService from './ProductService'
+import categoryService from './categoryService'
+import usersService from './usersService'
 
-export { ProductsService } 
+export { ProductsService, categoryService, usersService } 

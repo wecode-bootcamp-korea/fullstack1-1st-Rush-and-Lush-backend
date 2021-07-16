@@ -1,3 +1,3 @@
-import usersDao from "./usersDao";
+import usersDao from '../../models/usersDao';
 
 export { usersDao };
