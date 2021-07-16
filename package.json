@@ -26,5 +26,6 @@
   },
   "scripts": {
     "start": "nodemon --exec babel-node server.js"
-  }
+  }, 
+  "proxy": "http://10.89.1.230:8000"
 }
