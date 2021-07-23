@@ -192,7 +192,7 @@ model Address {
 
 model Payment {
   id            Int      @id @default(autoincrement())
-  paymentMethod String   @map("paymend_method") @db.VarChar(45)
+  paymentMethod String   @map("payment_method") @db.VarChar(45)
   createdAt     DateTime @default(now()) @map("created_at")
   order         Order[]
 
