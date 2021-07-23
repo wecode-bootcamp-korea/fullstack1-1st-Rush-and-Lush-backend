@@ -16,7 +16,7 @@ const userSignUp = async (req, res) => {
       message: 'USER_CREATED_SUCCESSFULLY',
     });
   } catch (err) {
-    res.status(500).json({
+    res.status(err.statusCode || 500).json({
       message: err.message,
     });
   }
@@ -44,7 +44,7 @@ const userLogin = async (req, res) => {
       res.status(200).json({ message: 'LOGIN_SUCCESS!', token });
     }
   } catch (err) {
-    res.status(500).json({
+    res.status(err.statusCode || 500).json({
       message: err.message,
     });
   }
