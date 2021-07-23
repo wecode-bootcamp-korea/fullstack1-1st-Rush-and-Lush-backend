@@ -16,7 +16,6 @@ const getProducts = async (subCategoryId=16) => {
       ON images.product_id = products.id
     WHERE products.sub_category_id = ${subCategoryId}
     `);
-  console.log(products)
   return products;
 };
 
